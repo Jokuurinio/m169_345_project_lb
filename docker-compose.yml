@@ -1,0 +1,126 @@
+# Gibt die Version des Docker Compose File-Formats an, welches verwendet wird.
+version: '3.8'
+
+services:
+  # Applikationscontainer für den Jupyter-Server
+  jupyter:
+    image: jupyter/scipy-notebook
+    container_name: jupyter_server
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      - jupyter_data:/home/jovyan/work
+    # environment aktiviert die JupyterLab-Oberfläche.
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    networks:
+      - net_project_lb
+      
+  # Container für CMS Drupal
+  drupal:
+    image: drupal:latest
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal_data:/var/www/html
+    depends_on:
+      - drupal_db
+    networks:
+      - net_project_lb
+
+  # Container für die Drupal Datenbank mit Postgres
+  drupal_db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: drupal
+      POSTGRES_USER: drupal_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/drupal_db_password
+    volumes:
+      - drupal_postgres_data:/var/lib/postgresql/data
+    networks:
+      - net_project_lb
+    secrets:
+      - drupal_db_password
+
+  # Container für Gogs 
+  gogs:
+    image: gogs/gogs
+    restart: always
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    volumes:
+      - gogs_data:/data
+    depends_on:
+      - gogs_db
+    networks:
+      - net_project_lb
+
+  # Container für Gogs Datenbank
+  gogs_db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: gogs
+      POSTGRES_USER: gogs_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/gogs_db_password
+    volumes:
+      - gogs_postgres_data:/var/lib/postgresql/data
+    networks:
+      - net_project_lb   
+    secrets:
+      - gogs_db_password
+
+  # Container für Portainer
+  portainer:
+    image: portainer/portainer-ce
+    restart: always
+    container_name: portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - net_project_lb
+
+
+
+# Alle Volumes der Container
+volumes:
+  # jupyter
+  jupyter_data:
+
+  # drupal
+  drupal_data:
+  drupal_postgres_data:
+
+  # gogs
+  gogs_data:
+  gogs_postgres_data:
+
+  # portainer
+  portainer_data:
+
+
+
+# Secrets für die Passwörterverknüpfung ausserhalb des Docker-Compose files
+secrets:
+
+  # drupal
+  drupal_db_password:
+    file: ./password/drupal_db_password.txt
+
+  # gogs
+  gogs_db_password:
+    file: ./password/gogs_db_password.txt
+
+
+
+# Das Netzwerk, welches wir benutzen
+networks:
+  net_project_lb:
+    driver: bridge
