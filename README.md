@@ -1,2 +1,2 @@
-# m169_345_project_lb
-Abschlussprojekt für das Modul 169-345
+# Project task for m169-345
+
