@@ -158,7 +158,7 @@ Was wurde gemacht? <br>
 - Die erste Installation lief aufgrund von Schreibfehlern falsch, nach anschliessender Korrektur wurden die Container erstellt und zum ersten Mal gestartet.
 - Bei den ersten versuchen auf Jupyter via localhost:8888 zu zugreifen, wurde immer ein Token gewünscht. Da ich keine Ahnung davon hatte oder warum das so war ging es zurück an Youtube und ChatGPT. Dies half mir nur bedint weil er plötzlich Jupyter Notebook wollte und via Token... Bis heute keine Ahnung warum... habs dann vorerst bei Seite gelegt. ![](/pictures/jupyter%20landing%20page.png "Image")
 - Derweilig habe ich Drupal und Gogs eingerichtet
-- Zugriff auf Jupyter hat via Portainer funktiniert. Anschliessend konnte ich korrekt darauf Zugreifen
+- Zugriff auf Jupyter hat via Portainer funktiniert. Ich habe den gewünschten Token für Jupyter gefunden und anschliessend konnte ich korrekt darauf Zugreifen. ![](/pictures/jupyter%20logs%20token.png "Image")
 - Persistente Datenspeicherung Überprüft. Funktioniert. Nach dem Entfernen und wieder erzeugen, waren die Daten noch immer vorhanden.
 
 ### Arbeitsblock 2
