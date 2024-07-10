@@ -98,5 +98,76 @@ Bevor die Docker Compose-Dateien ausgeführt wird: Sicherstellen, dass das exter
 |Network| net_project_lb |
 
 
+<br>
+<br>
 
-![](/pictures/jupyter%20landing%20page.png "Image")
+## Testing
+
+### Testkonzept
+
+#### Was ist unser Ziel?
+
+Wir wollen die Container auf Persistenz überprüfen. 
+Wir wollen überprüfen ob alle Container Korrekt aufgesetzt sind.
+
+#### Wie wird getest ?
+
+Entfernen der Container und erneuter erstellen.
+
+#### Benötigte Infrastruktur:
+- Debian (Version 12.5)
+- Docker (Version 20.10.24+ dfsg1)
+
+#### Testdaten 
+- Logindaten
+- Screenshots
+
+### Testplan Persistente Daten
+
+| Persistente Daten |                 |
+|:-------------             |:--------------- |
+| ID / Bezeichnung          | T-01       |
+| Beschreibung              | Es wird überprüft ob die Daten persistent gespeichert werden, auch wenn der Container gelöscht und neu aufgesetzt wird.| 
+| Testvoraussetzung         | Der Nextcloudcontainer muss auf localhost:8080 ereichbar sein.<br> Die Installation des Nextcloudcontainer muss abgeschlossen sein.<br> Es muss Testinhalt hinzgefügt werden, sodass mann schnell erkennt ob die Daten persistent gespeichert wurden.        |
+| Testschritte              | 1. Docke-compose file erstellt <br> 2. Container erstellen <br> 3. Überprüfen ob alle Container laufen und diese Einrichten <br> 4. Alle Container entfernen. <br> 5.  Alle Container wieder starten mit: docker-compose up -d <br> 7. Überprüfen ob die Daten noch vorhanden sind  | 
+| Erwartetes Testergebnis   | Alle Testinhalte sind immer noch vorhanden.|
+
+### Testprotokoll Nextcloud
+|Persistente Daten |                 |
+|:------------- |:--------------- |
+| Tester | Fabian|            |
+| Testdatum | 03.07.24 |
+| Ergebnis | **Testinhalt** ![](/pictures/drupal%20website%20startpage.png "Image")  ![](/pictures/gogs%20landing%20page.png "Image")<br> <br>  **Testablauf**  ![](/pictures/docker%20rm%20container%20and%20redo.png "Image") |
+| Kommentar vom Tester | Der Inhalt war nach dem löschen und neu erstellen des Containers immer noch vorhanden. Alles wie erwartet|
+
+<br>
+<br>
+
+
+## Arbeitsablauf und Zusammenfassung
+
+### Arbeitsblock 1
+
+**Datum: 03.07.24**
+<br>
+Was wurde gemacht? <br>
+- Der Auftrag wurde Überflogen und erste Informationen notiert.
+- Ich habe auf dem Heimrechner die VM erstellt und Debian installiert.
+- Nach erfolgreicher Installation wurde ebenfalls Docker installiert.
+- Anschliessend habe ich mich darüber informiert was Jupyter und Drupal macht bzw. ist. Ich habe das Docker-Compose files mit informationen aus dem Docker-Hub, Youtube, Online-Foren und mithilfe von ChatGPT erstellt und organisiert.
+- Die erste Installation lief aufgrund von Schreibfehlern falsch, nach anschliessender Korrektur wurden die Container erstellt und zum ersten Mal gestartet.
+- Bei den ersten versuchen auf Jupyter via localhost:8888 zu zugreifen, wurde immer ein Token gewünscht. Da ich keine Ahnung davon hatte oder warum das so war ging es zurück an Youtube und ChatGPT. Dies half mir nur bedint weil er plötzlich Jupyter Notebook wollte und via Token... Bis heute keine Ahnung warum... habs dann vorerst bei Seite gelegt. ![](/pictures/jupyter%20landing%20page.png "Image")
+- Derweilig habe ich Drupal und Gogs eingerichtet
+- Zugriff auf Jupyter hat via Portainer funktiniert. Anschliessend konnte ich korrekt darauf Zugreifen
+- Persistente Datenspeicherung Überprüft. Funktioniert. Nach dem Entfernen und wieder erzeugen, waren die Daten noch immer vorhanden.
+
+### Arbeitsblock 2
+
+**Datum: 10.07.24**
+<br>
+Was wurde gemacht? <br>
+- Ich habe gemerkt das die Abgabe bereits um 13:00 ist...  //Great Job Fabian Lese sött mer chöne
+- Anpassung des README.md und Dokumentation fertigstellen
+
+
+
