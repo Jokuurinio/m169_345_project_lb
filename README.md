@@ -44,10 +44,58 @@ z.B.<br>
 Bevor die Docker Compose-Dateien ausgeführt wird: Sicherstellen, dass das externe Netzwerk net_project_lb erstellt wurde:
 
 	docker network create net_project_lb
+	
+## Containerinformationen
 
-## Generierung des Jupyter Password/token für den ersten Log-in
+### Jupyter
+|Jupyter| |
+|:------------- |:--------------- |
+|Image |jupyter/scipy-notebook|
+|Ports| 8888:8888|
+|Volumes| jupyter_data:/home/jovyan/work|
+|Environment| JUPYTER_ENABLE_LAB=yes|
+|Network| net_project_lb |
 
-	Sudo apt install jupyter
+### Drupal
+|Drupal| |
+|:------------- |:--------------- |
+|Image |drupal:latest|
+|Ports| 8080:80|
+|Volumes| drupal_data:/var/www/html|
+|Abhängigkeiten| drupal_db|
+|Network| net_project_lb |
+
+|drupal_db| |
+|:------------- |:--------------- |
+|Image |postgres:latest|
+|Volumes| drupal_postgres_data:/var/lib/postgresql/data |
+|Environment|- POSTGRES_DB: drupal <br> - POSTGRES_USER: drupal_user <br> - POSTGRES_PASSWORD: password|
+|Network| net_project_lb |
+
+### Gogs
+|Drupal| |
+|:------------- |:--------------- |
+|Image |gogs/gogs|
+|Ports| - 3000:3000 <br> - 2222:22|
+|Volumes| gogs_data:/data|
+|Abhängigkeiten| gogs_db|
+|Network| net_project_lb |
+
+|drupal_db| |
+|:------------- |:--------------- |
+|Image |postgres:latest|
+|Volumes| gogs_postgres_data:/var/lib/postgresql/data |
+|Environment|- POSTGRES_DB: gogs <br> - POSTGRES_USER: gogs_user <br> - POSTGRES_PASSWORD: password|
+|Network| net_project_lb |
+
+### Portainer
+
+|Portainer | |
+|:------------- |:--------------- |
+|Image |portainer/portainer-ce |
+|Ports| "9000:9000" |
+|Volumes| - /var/run/docker.sock:/var/run/docker.sock <br> - portainer_data:/data |
+|Network| net_project_lb |
 
 
 
